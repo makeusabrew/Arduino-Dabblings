@@ -24,6 +24,8 @@ const byte GREEN = 2;
 const byte BLUE = 3;
 const byte WHITE = 4;
 const byte YELLOW = 5;
+const byte MAGENTA = 6;
+const byte CYAN = 7;
 
 int ledValues[][3] = {  
   {HIGH, HIGH, HIGH},
@@ -31,7 +33,9 @@ int ledValues[][3] = {
   {HIGH, LOW, HIGH},
   {HIGH, HIGH, LOW},
   {LOW, LOW, LOW},
-  {LOW, LOW, HIGH}
+  {LOW, LOW, HIGH},
+  {LOW, HIGH, LOW},
+  {HIGH, LOW, LOW}
 };
 
 unsigned long time;
@@ -52,13 +56,18 @@ void setup() {
   
   Serial.begin(9600);
   
+  unsigned int startCounter = 0;
   while(true) {
-    Serial.print('X');
-    delay(250);
     if (Serial.available() && Serial.read() == 'X') {
-      Serial.flush();
       break;
     }
+    if (startCounter++ % 100 < 50) {
+      ledColour(ledValues[MAGENTA]);
+    } else {
+      ledColour(ledValues[CYAN]);
+    }
+    Serial.print('X');
+    delay(10);
   }
   
   //state = STATE_INTRO
@@ -71,6 +80,7 @@ void setup() {
   }
   
   currentColour = random(1, 5);
+  Serial.print('G');
 }
 
 void loop() {

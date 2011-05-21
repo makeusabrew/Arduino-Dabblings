@@ -25,13 +25,22 @@ void setup() {
   pinMode(speakerPin, OUTPUT);
   Serial.begin(9600);
   
+  unsigned int startCounter = 0;
   while(true) {
-    Serial.print('X');
-    delay(250);
     if (Serial.available() && Serial.read() == 'X') {
-      Serial.flush();
+      delay(10);
+      Serial.write('X');
       break;
     }
+    
+    if (startCounter++ % 100 < 50) {
+      analogWrite(greenPin, 255);
+      analogWrite(redPin, 0);
+    } else {
+      analogWrite(redPin, 255);
+      analogWrite(greenPin, 0);
+    }
+    delay(10);
   }
 }
 
@@ -57,7 +66,18 @@ void loop() {
         playNote('c', 200);
         break;
       case 'S':
+        redVal = greenVal = 64;
+        analogWrite(greenPin, greenVal);
+        analogWrite(redPin, redVal);
         playNote('c', 100);
+        
+        break;
+      case 'G':
+        redVal = greenVal = 128;
+        analogWrite(greenPin, greenVal);
+        analogWrite(redPin, redVal);
+        playNote('C', 200);
+        
         break;
       default:
         // ignore
