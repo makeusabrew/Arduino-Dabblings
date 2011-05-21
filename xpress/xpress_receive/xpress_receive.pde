@@ -24,6 +24,15 @@ void setup() {
   pinMode(redPin, OUTPUT);
   pinMode(speakerPin, OUTPUT);
   Serial.begin(9600);
+  
+  while(true) {
+    Serial.print('X');
+    delay(250);
+    if (Serial.available() && Serial.read() == 'X') {
+      Serial.flush();
+      break;
+    }
+  }
 }
 
 void loop() {

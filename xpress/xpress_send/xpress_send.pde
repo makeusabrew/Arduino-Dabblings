@@ -25,13 +25,7 @@ const byte BLUE = 3;
 const byte WHITE = 4;
 const byte YELLOW = 5;
 
-const byte STATE_INTRO = 0;
-const byte STATE_GAME = 1;
-const byte STATE_FINISHED = 2;
-
-byte state;
-
-int ledValues[][3] = {
+int ledValues[][3] = {  
   {HIGH, HIGH, HIGH},
   {LOW, HIGH, HIGH},
   {HIGH, LOW, HIGH},
@@ -52,24 +46,28 @@ void setup() {
     pinMode(ledPin[i], OUTPUT);
   }
   
+  ledColour(ledValues[OFF]);
+  
   randomSeed(analogRead(0));
   
   Serial.begin(9600);
   
-  Serial.print('X');
-  delay(100);
-  Serial.print('X');
-  delay(100);
-  Serial.print('X');
-  delay(100);
+  while(true) {
+    Serial.print('X');
+    delay(250);
+    if (Serial.available() && Serial.read() == 'X') {
+      Serial.flush();
+      break;
+    }
+  }
   
   //state = STATE_INTRO
   for (int i = 0; i < 3; i ++) {
+    Serial.print('S');  // get some comms going
     ledColour(ledValues[YELLOW]);
     delay(500);
     ledColour(ledValues[OFF]);
     delay(500);
-    Serial.print('S');  // get some comms going
   }
   
   currentColour = random(1, 5);
