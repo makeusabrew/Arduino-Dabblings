@@ -22,6 +22,7 @@ int redVal = 0;
 void setup() {
   pinMode(greenPin, OUTPUT);
   pinMode(redPin, OUTPUT);
+  pinMode(speakerPin, OUTPUT);
   Serial.begin(9600);
 }
 
@@ -32,16 +33,16 @@ void loop() {
     if (val == 'P') {
       greenVal = 255;
       analogWrite(greenPin, greenVal);
-      playNote('c', 25);
-      playNote('d', 25);
-      playNote('e', 25);
-      playNote('g', 100);
+      playNote('c', 50);
+      playNote('d', 50);
+      playNote('e', 50);
+      playNote('g', 200);
     } else if (val == 'L') {
       redVal = 255;
       analogWrite(redPin, redVal);
-      playNote('c', 50);
-      delay(50);
-      playNote('c', 50);
+      playNote('c', 75);
+      delay(75);
+      playNote('c', 200);
     }   
   }
   
