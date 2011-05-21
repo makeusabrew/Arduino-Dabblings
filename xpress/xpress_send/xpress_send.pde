@@ -1,4 +1,14 @@
-
+/**
+ * X-Press Send Client
+ *
+ * Takes care of the basic 'game' logic (if you could call it that)
+ * and sends notifications of correct and incorrect button presses
+ * over an X-Bee radio
+ *
+ * (c) Nick Payne 2011
+ *
+ * License: MIT
+ */
 const int buttons[] = {-1, 2, 3, 4, 5};
 
 int buttonStates[] = {0, 0, 0, 0, 0};
@@ -80,9 +90,11 @@ void loop() {
   
     if (badPress == true) {
     Serial.print('L');
+    delay(10);
     points --;
   } else if (correctPress == true) {
     Serial.print('P');
+    delay(10);
     points ++;
     currentColour = 0;
     nextColourTime = millis() + 100;

@@ -13,7 +13,7 @@
 // basic setup stuff
 int greenPin = 9;
 int redPin = 11;
-int buzzerPin = 10;
+int speakerPin = 10;
 
 // current values of our respective LEDs
 int greenVal = 0;
