@@ -11,25 +11,33 @@
  */
 const int buttons[] = {-1, 2, 3, 4, 5};
 
-int buttonStates[] = {0, 0, 0, 0, 0};
+boolean buttonStates[] = {0, 0, 0, 0, 0};
 
 const int ledPin[] = {9, 10, 11};
 
 int currentColour = 0;
 int points = 0;
 
-const int OFF = 0;
-const int RED = 1;
-const int GREEN = 2;
-const int BLUE = 3;
-const int WHITE = 4;
+const byte OFF = 0;
+const byte RED = 1;
+const byte GREEN = 2;
+const byte BLUE = 3;
+const byte WHITE = 4;
+const byte YELLOW = 5;
+
+const byte STATE_INTRO = 0;
+const byte STATE_GAME = 1;
+const byte STATE_FINISHED = 2;
+
+byte state;
 
 int ledValues[][3] = {
   {HIGH, HIGH, HIGH},
   {LOW, HIGH, HIGH},
   {HIGH, LOW, HIGH},
   {HIGH, HIGH, LOW},
-  {LOW, LOW, LOW}
+  {LOW, LOW, LOW},
+  {LOW, LOW, HIGH}
 };
 
 unsigned long time;
@@ -46,13 +54,25 @@ void setup() {
   
   randomSeed(analogRead(0));
   
-  currentColour = 0;
-  
-  ledColour(ledValues[currentColour]);
-  
   Serial.begin(9600);
   
-  nextColourTime = millis() + 3000;
+  Serial.print('X');
+  delay(100);
+  Serial.print('X');
+  delay(100);
+  Serial.print('X');
+  delay(100);
+  
+  //state = STATE_INTRO
+  for (int i = 0; i < 3; i ++) {
+    ledColour(ledValues[YELLOW]);
+    delay(500);
+    ledColour(ledValues[OFF]);
+    delay(500);
+    Serial.print('S');  // get some comms going
+  }
+  
+  currentColour = random(1, 5);
 }
 
 void loop() {
@@ -88,7 +108,7 @@ void loop() {
   
   ledColour(ledValues[currentColour]);
   
-    if (badPress == true) {
+  if (badPress == true) {
     Serial.print('L');
     delay(10);
     points --;

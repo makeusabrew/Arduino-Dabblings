@@ -30,20 +30,30 @@ void loop() {
   if (Serial.available() > 0) {
     int val = Serial.read();
     delay(10);
-    if (val == 'P') {
-      greenVal = 255;
-      analogWrite(greenPin, greenVal);
-      playNote('c', 50);
-      playNote('d', 50);
-      playNote('e', 50);
-      playNote('g', 200);
-    } else if (val == 'L') {
-      redVal = 255;
-      analogWrite(redPin, redVal);
-      playNote('c', 75);
-      delay(75);
-      playNote('c', 200);
-    }   
+    
+    switch (val) {
+      case 'P':
+        greenVal = 255;
+        analogWrite(greenPin, greenVal);
+        playNote('c', 50);
+        playNote('d', 50);
+        playNote('e', 50);
+        playNote('g', 200);
+        break;
+      case 'L':
+        redVal = 255;
+        analogWrite(redPin, redVal);
+        playNote('c', 75);
+        delay(75);
+        playNote('c', 200);
+        break;
+      case 'S':
+        playNote('c', 100);
+        break;
+      default:
+        // ignore
+        break;
+    }  
   }
   
   analogWrite(greenPin, greenVal);
